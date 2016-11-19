@@ -4,34 +4,34 @@
 namespace data
 {
   
-  leaf_node::leaf_node(const guid& GUID,
-		       const std::string& repo,
-		       const std::string& data)
+  leaf_node_s::leaf_node_s(const guid& GUID,
+			   const std::string& repo,
+			   const std::string& data)
     : m_GUID(GUID)
   {
     set_leaf_data(repo, data);
   }
   
-  leaf_node::~leaf_node() {}
+  leaf_node_s::~leaf_node_s() {}
   
-  leaf_storage_t& leaf_node::get_leaf_data_storage(const std::string& repo)
+  leaf_storage_t& leaf_node_s::get_leaf_data_storage(const std::string& repo)
   {
     return m_data[repo];
   }
   
-  void leaf_node::set_leaf_data(const std::string& repo,
-				const std::string& data)
+  void leaf_node_s::set_leaf_data(const std::string& repo,
+				  const std::string& data)
   {
     auto& leaf_data_storage = get_leaf_data_storage(repo);
     leaf_data_storage.emplace_back(data);
   }
   
   
-  bool leaf_node::add_data(std::unique_ptr<tree_node>& node,
-			   const guid& GUID,
-			   int8_t depth,
-			   const std::string& repo,
-			   const std::string& data)
+  bool leaf_node_s::add_data(std::unique_ptr<tree_node>& node,
+			     const guid& GUID,
+			     int8_t depth,
+			     const std::string& repo,
+			     const std::string& data)
   {
     if(get_guid() == GUID) {
       set_leaf_data(repo, data);
@@ -43,7 +43,7 @@ namespace data
     }
   }
   
-  const guid& leaf_node::get_guid() const
+  const guid& leaf_node_s::get_guid() const
   {
     return m_GUID;
   }
@@ -52,7 +52,7 @@ namespace data
 						  const std::string& repo,
 						  const std::string& data)
   {
-    return std::unique_ptr<tree::tree_node>{new leaf_node{ GUID, repo, data }};
+    return std::unique_ptr<tree::tree_node>{new leaf_node_s{ GUID, repo, data }};
   }
 
 }

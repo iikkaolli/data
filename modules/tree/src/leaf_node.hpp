@@ -7,19 +7,19 @@ namespace data
   
   using leaf_storage_t = std::vector<std::string>;
   
-  struct leaf_node : public tree::tree_node
+  struct leaf_node_s : public tree::tree_node
   {
     guid m_GUID;
     std::map<std::string, leaf_storage_t> m_data;
     
-    leaf_node(const guid& GUID,
-	      const std::string&,
-	      const std::string&);
+    leaf_node_s(const guid& GUID,
+		const std::string&,
+		const std::string&);
     //leaf_node(const leaf_node&);
     //leaf_node& operator=(const leaf_node&);
     //leaf_node(leaf_node&&);
     //leaf_node& operator=(leaf_node&&);
-    ~leaf_node();
+    ~leaf_node_s();
     
     bool add_data(std::unique_ptr<tree_node>&,
 		  const guid&,
