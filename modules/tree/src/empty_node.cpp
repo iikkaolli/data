@@ -14,7 +14,8 @@ namespace data
 			      const std::string& repo,
 			      const std::string& data)
   {
-    node_ptr = make_leaf_node(GUID, repo, data);
+    node_ptr = make_leaf_node(GUID);
+    return node_ptr->add_data(node_ptr, GUID, depth, repo, data);
   }
 
   //std::pair<bool, std::string> empty_node_s::get_data(const guid& GUID,

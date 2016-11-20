@@ -5,7 +5,7 @@
 namespace data
 {
   
-  folder_node_s::folder_node_s()
+  folder_node_s::folder_node_s(int8_t depth) : m_depth(depth)
   {
     for(size_t ii = 0; ii < 256; ++ii) {
       set_node(ii, make_empty_node());
@@ -20,10 +20,8 @@ namespace data
 			       const std::string& repo,
 			       const std::string& data)
   {
-    auto new_node = make_leaf_node(GUID, repo, data);
-    //    set_node(GUID, depth, new_node);
-    
-    return true;
+    auto& position = get_folder_position(GUID);
+    return position->add_data(node, GUID, depth, repo, data);
   }
   
   void folder_node_s::set_node(size_t index,
@@ -36,14 +34,18 @@ namespace data
 			       int8_t depth,
 			       tree_node_p node)
   {
-    auto& position = get_folder_position(GUID, depth);
+    auto& position = get_folder_position(GUID);
     position.swap(node);
   }
   
-  tree_node_p& folder_node_s::get_folder_position(const guid& GUID,
-						  int8_t depth)
+  tree_node_p& folder_node_s::get_folder_position(const guid& GUID)
   {
     //return m_nodes[GUID[depth]];
     return m_nodes[0];
-  } 
+  }
+
+  tree_node_p make_folder_node(int8_t depth)
+  {
+    return tree_node_p{ new folder_node_s{depth} };
+  }
 }

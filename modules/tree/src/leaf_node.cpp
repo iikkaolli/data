@@ -4,28 +4,15 @@
 namespace data
 {
   
-  leaf_node_s::leaf_node_s(const guid& GUID,
-			   const std::string& repo,
-			   const std::string& data)
-    : m_GUID(GUID)
-  {
-    set_leaf_data(repo, data);
-  }
+  leaf_node_s::leaf_node_s(const guid& GUID)
+    : m_GUID(GUID) {}
   
   leaf_node_s::~leaf_node_s() {}
   
-  leaf_storage_s& leaf_node_s::get_leaf_data_storage(const std::string& repo)
+  const guid& leaf_node_s::get_guid() const
   {
-    return m_data[repo];
+    return m_GUID;
   }
-  
-  void leaf_node_s::set_leaf_data(const std::string& repo,
-				  const std::string& data)
-  {
-    auto& leaf_data_storage = get_leaf_data_storage(repo);
-    leaf_data_storage.emplace_back(data);
-  }
-  
   
   bool leaf_node_s::add_data(tree_node_p& node,
 			     const guid& GUID,
@@ -34,24 +21,33 @@ namespace data
 			     const std::string& data)
   {
     if(get_guid() == GUID) {
-      set_leaf_data(repo, data);
+      return set_leaf_data(repo, data);
     } else {
-      auto folder = make_folder_node();
-      folder->add_data(node, GUID, depth+1, repo, data);
+      auto folder = make_folder_node(depth+1);
       node.swap(folder);
-      //node->set_node(get_guid(), depth+1, folder);
+
+      //node->add_leaf(get_guid(), depth+1, folder);
+      
+      return node->add_data(node, GUID, depth+1, repo, data);
     }
   }
   
-  const guid& leaf_node_s::get_guid() const
+  leaf_storage_s& leaf_node_s::get_leaf_data_storage(const std::string& repo)
   {
-    return m_GUID;
+    return m_data[repo];
   }
   
-  tree_node_p make_leaf_node(const guid& GUID,
-			     const std::string& repo,
-			     const std::string& data)
+  bool leaf_node_s::set_leaf_data(const std::string& repo,
+				  const std::string& data)
   {
-    return tree_node_p{new leaf_node_s{ GUID, repo, data }};
+    auto& leaf_data_storage = get_leaf_data_storage(repo);
+    leaf_data_storage.emplace_back(data);
+
+    return true;
+  }
+    
+  tree_node_p make_leaf_node(const guid& GUID)
+  {
+    return tree_node_p{new leaf_node_s{ GUID }};
   }
 }
