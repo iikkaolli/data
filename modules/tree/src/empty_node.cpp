@@ -5,28 +5,28 @@
 namespace data
 {
 
-  empty_node::empty_node() {}
-  empty_node::~empty_node() {}
+  empty_node_s::empty_node_s() {}
+  empty_node_s::~empty_node_s() {}
 
-  bool empty_node::add_data(std::unique_ptr<tree::tree_node> &node_ptr,
-			    const guid& GUID,
-			    int8_t depth,
-			    const std::string& repo,
-			    const std::string& data)
+  bool empty_node_s::add_data(tree_node_p& node_ptr,
+			      const guid& GUID,
+			      int8_t depth,
+			      const std::string& repo,
+			      const std::string& data)
   {
     node_ptr = make_leaf_node(GUID, repo, data);
   }
 
-  //std::pair<bool, std::string> empty_node::get_data(const guid& GUID,
+  //std::pair<bool, std::string> empty_node_s::get_data(const guid& GUID,
   //						    int8_t depth,
   //						    const std::string& repo) const
   //{
   //  return { false, {}};
   //}
   
-  std::unique_ptr<tree::tree_node> make_empty_node()
+  tree_node_p make_empty_node_s()
   {
-    return std::unique_ptr<tree::tree_node>{new empty_node{}};
+    return tree_node_p{new empty_node_s{}};
   }
   
 }

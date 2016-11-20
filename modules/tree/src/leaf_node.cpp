@@ -14,7 +14,7 @@ namespace data
   
   leaf_node_s::~leaf_node_s() {}
   
-  leaf_storage_t& leaf_node_s::get_leaf_data_storage(const std::string& repo)
+  leaf_storage_s& leaf_node_s::get_leaf_data_storage(const std::string& repo)
   {
     return m_data[repo];
   }
@@ -27,7 +27,7 @@ namespace data
   }
   
   
-  bool leaf_node_s::add_data(std::unique_ptr<tree_node>& node,
+  bool leaf_node_s::add_data(tree_node_p& node,
 			     const guid& GUID,
 			     int8_t depth,
 			     const std::string& repo,
@@ -48,11 +48,10 @@ namespace data
     return m_GUID;
   }
   
-  std::unique_ptr<tree::tree_node> make_leaf_node(const guid& GUID,
-						  const std::string& repo,
-						  const std::string& data)
+  tree_node_p make_leaf_node(const guid& GUID,
+			     const std::string& repo,
+			     const std::string& data)
   {
-    return std::unique_ptr<tree::tree_node>{new leaf_node_s{ GUID, repo, data }};
+    return tree_node_p{new leaf_node_s{ GUID, repo, data }};
   }
-
 }

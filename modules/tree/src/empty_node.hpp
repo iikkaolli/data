@@ -5,25 +5,25 @@
 namespace data
 {
   
-  struct empty_node : public tree::tree_node
+  struct empty_node_s : public tree_s::tree_node_s
   {
-    empty_node();
+    empty_node_s();
     //empty_node(const empty_node&);
     //empty_node& operator=(const empty_node&);
     //empty_node(empty_node&&);
     //empty_node& operator=(empty_node&&);
-    ~empty_node();
+    ~empty_node_s();
     
-    bool add_data(std::unique_ptr<tree_node> &pNode,
-		  const guid& GUID,
-		  int8_t depth,
-		  const std::string& repo,
-		  const std::string& data) override;
+    bool add_data(tree_node_p&,
+		  const guid&,
+		  int8_t,
+		  const std::string&,
+		  const std::string&) override;
     
     //std::pair<bool, std::string> get_data(const guid&,
     //					  int8_t,
     //					  const std::string&) const override;
   };
   
-  std::unique_ptr<tree::tree_node> make_empty_node();
+  tree_node_p make_empty_node();
 }

@@ -4,29 +4,27 @@
 
 namespace data
 {
-  struct folder_node : public tree::tree_node
+  struct folder_node_s : public tree_s::tree_node_s
   {
-    std::array<std::unique_ptr<tree::tree_node>, 256> m_nodes;
+    std::array<tree_node_p, 256> m_nodes;
     
-  folder_node();
-    //folder_node(const folder_node&);
-    //folder_node& operator=(const folder_node&);
-    //folder_node(folder_node&&);
-    //folder_node& operator=(folder_node&&);
-    ~folder_node();
+    folder_node_s();
+    //folder_node_s(const folder_node_s&);
+    //folder_node_s& operator=(const folder_node_s&);
+    //folder_node_s(folder_node_s&&);
+    //folder_node_s& operator=(folder_node_s&&);
+    ~folder_node_s();
     
-    bool add_data(std::unique_ptr<tree::tree_node>&, 
+    bool add_data(tree_node_p&, 
 		  const guid&,
 		  int8_t,
 		  const std::string&,
 		  const std::string&) override;
     
-    void set_node(size_t, std::unique_ptr<tree::tree_node>);
-    void add_node(const guid&, int8_t, std::unique_ptr<tree::tree_node>);
-    std::unique_ptr<tree::tree_node>& get_folder_position(const guid&,
-							  int8_t);
-    
+    void set_node(size_t, tree_node_p);
+    void add_node(const guid&, int8_t, tree_node_p);
+    tree_node_p& get_folder_position(const guid&, int8_t);
   };
   
-  std::unique_ptr<tree::tree_node> make_folder_node();
+  tree_node_p make_folder_node();
 }
