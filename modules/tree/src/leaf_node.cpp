@@ -26,7 +26,8 @@ namespace data
       auto folder = make_folder_node(depth+1);
       node.swap(folder);
 
-      //node->add_leaf(get_guid(), depth+1, folder);
+      auto *pFolder = reinterpret_cast<folder_node_s*>(node.get());
+      pFolder->add_node(get_guid(), depth+1, std::move(folder));
       
       return node->add_data(node, GUID, depth+1, repo, data);
     }
